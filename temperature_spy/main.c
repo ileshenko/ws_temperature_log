@@ -69,7 +69,7 @@ static void report(void)
 {
 	unsigned long delay = (jiffies - timestamp +30)/60;
 
-	cat_str(cat_ul(cat_str(to_print,"@ "), delay), " " STR_MACRO(DELAY_MINUTES) "\n\r");
+	cat_str(cat_ul(cat_str(to_print,"@ "), delay), " " STR_MACRO(DELAY_MINUTES) "\r\n");
 	 uart_text(to_print);
 	 stop_idx = rep_idx = write_idx;
 	 report_stage = 1;
@@ -80,7 +80,7 @@ static void rx_cb(unsigned char sym)
 	switch (sym)
 	{
 	case 'p':
-		uart_text("P\n\r");
+		uart_text("P\r\n");
 		break;
 	case 'r':
 		report();
@@ -102,7 +102,7 @@ void tx_ready_cb(void)
 	{
 		IntDegC = log[rep_idx];
 
-		cat_str(cat_ul(to_print, IntDegC),"\n\r");
+		cat_str(cat_ul(to_print, IntDegC),"\r\n");
 		uart_text(to_print);
 
 		if (--rep_idx < 0)
@@ -113,7 +113,7 @@ void tx_ready_cb(void)
 	}
 	if (report_stage == 2)
 	{
-		uart_text("==\n\r");
+		uart_text("==\r\n");
 		report_stage = 0;
 	}
 }
@@ -172,7 +172,7 @@ void main(void)
 		log[write_idx] = (char)IntDegC;
 
 #ifdef DEBUG_TEMP
-		cat_str(cat_ul(to_print, IntDegC),"\n\r");
+		cat_str(cat_ul(to_print, IntDegC),"\r\n");
 		uart_text(to_print);
 #endif
 
